@@ -3,7 +3,7 @@ I followed [this tutorial](https://indico.cern.ch/event/963617/#b-397836-flashgg
 on producing microAODs can also be found [here](https://github.com/amrutha-k/flashgg/blob/7a42c9baf4ff11c995337eb15555ee59af7395dc/MetaData/README.md).
 
 ### Error
-A common error while running crab jobs for this clone of flashgg is given below:
+A common error while running crab jobs to produce microAODs for this clone of flashgg is given below:
 ```
 94 jobs failed with exit code 7002:
 
@@ -21,13 +21,13 @@ A common error while running crab jobs for this clone of flashgg is given below:
                ${CMSSW_SEARCH_PATH} is: /srv/CMSSW_10_5_0/poison:/srv/CMSSW_10_6_8/src:/srv/CMSSW_10_6_8/external/slc7_amd64_gcc700/data:/cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_8/src:/cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_8/external/slc7_amd64_gcc700/data
                Current directory is: /srv
 ```
-The workaround for this error is to copy the directory flashgg/MicroAOD/data to CMSSW_10_6_8/external/slc7_amd64_gcc700/data :
+A workaround for this error is to copy the directory `flashgg/MicroAOD/data` to `CMSSW_10_6_8/external/slc7_amd64_gcc700/data` :
 ```
 cd $CMSSW_BASE/src/flashgg
 mkdir ../../external/slc7_amd64_gcc700/data/
 cp MicroAOD/data/* ../../external/slc7_amd64_gcc700/data/
 ```
-Note: Some of the .xml files in the data directory are very large in size and this may create problems while creating tarball for microAOD production. So it is better to copy only the required .xml files in your $CMSSW_BASE/external/slc7_amd64_gcc700/data/ folder. Or you can copy the whole "data" directory and then delete the large .xml files which you don't use in your metaConditions json file.
+Note: Some of the .xml files in the data directory are very large in size and this may create problems while creating tarball for microAOD production. So it is better to copy only the required .xml files in your `$CMSSW_BASE/external/slc7_amd64_gcc700/data/` folder. Or you can copy the whole "data" directory and then delete the large .xml files which you don't use in your metaConditions json file.
 
 You should make one more change (given below) in the metaconditions json to fix the issue:
 ```
