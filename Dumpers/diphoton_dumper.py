@@ -19,7 +19,7 @@ process.load("Configuration.StandardSequences.GeometryDB_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
-process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32( 1000 )
+process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32( 20000 )
 
 
 systlabels = [""]
@@ -483,8 +483,8 @@ else:
         ]
 
 
-tagList=[["VBFTag",3],["UntaggedTag",4]] #One Category
-
+#tagList=[["VBFTag",3],["UntaggedTag",4]] #One Category
+tagList=[["UntaggedTag",4]] #One Category
 
 process.flashggWHLeptonicTag.Boundaries_GT75 = cms.vdouble(-1) #Loose cuts on WHBDT mva... #Rohith
 
@@ -582,7 +582,7 @@ for tag in tagList:
                            nScaleWeights=nScaleWeights,
                            splitPdfByStage0Bin=customize.doHTXS,
                            splitPdfByStage1Bin=customize.doStageOne,
-                           #dumpGenWeight=customize.dumpGenWeight
+                           dumpGenWeight=customize.dumpGenWeight
                            )
 
 # Require standard diphoton trigger

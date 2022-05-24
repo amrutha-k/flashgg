@@ -8,6 +8,6 @@ fggRunJobs.py  \
     --load $json \
     -d $outdir \
     -q $queue \
-    -n 94 \
+    -n 100 \
     --no-copy-proxy -D -P \
     -x cmsRun $dumper maxEvents=$nEvents copyInputMicroAOD=False

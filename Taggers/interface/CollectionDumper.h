@@ -252,6 +252,7 @@ namespace flashgg {
         splitPdfByStage0Bin_ = cfg.getUntrackedParameter<bool>( "splitPdfByStage0Bin", false);
         splitPdfByStage1Bin_ = cfg.getUntrackedParameter<bool>( "splitPdfByStage1Bin", false);
 
+
         if( cfg.getUntrackedParameter<bool>( "quietRooFit", false ) ) {
             RooMsgService::instance().setGlobalKillBelow( RooFit::WARNING );
         }
@@ -421,7 +422,7 @@ namespace flashgg {
                     const auto &weights = genInfo->weights();
                     // FIXME store alternative/all weight-sets
                     if( ! weights.empty() ) {
-                        genweight = weights[0];
+                        genweight = weights[9];
                     }
                 }
             }
@@ -443,6 +444,7 @@ namespace flashgg {
             }
             
             weight = lumiWeight_;
+            //std::cout<<"lumiweight = "<<lumiWeight_<<std::endl;
             
             if( LHEWeightName != ""){
                 edm::Handle<LHEEventProduct> product_lhe;
