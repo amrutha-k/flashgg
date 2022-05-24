@@ -36,3 +36,5 @@ You should make one more change (given below) in the metaconditions json to fix 
 "vertexIdMVAweightfile" : "flashgg/MicroAOD/data/TMVAClassification_BDTVtxId_SL_2016.xml", -> "vertexIdMVAweightfile" : "TMVAClassification_BDTVtxId_SL_2016.xml",
 "vertexProbMVAweightfile" : "flashgg/MicroAOD/data/TMVAClassification_BDTVtxProb_SL_2016.xml" -> "vertexProbMVAweightfile" : "TMVAClassification_BDTVtxProb_SL_2016.xml" 
 ```
+(P.S. I had to reverse the above step while submitting HTCondor jobs since the files were not accessible from the condor directory otherwise)
+
