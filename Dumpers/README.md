@@ -1,7 +1,7 @@
 ## Dumper for Hgg width measurement
 * First produce MicroAODs, then create catalog in MetaData/data/ following the steps given [here](https://github.com/amrutha-k/flashgg/tree/HggWidth/MetaData#importing-datasets-from-dbs).
 * Then create a json file with correct customizations (eg: hgg_width_UL17_sigMC.json)
-* Change MetaData/data/cross_sections.json if needed. Cross section could be calculated using the [GenXsecAnalyzer](https://twiki.cern.ch/twiki/bin/viewauth/CMS/HowToGenXSecAnalyzer). [SM higgs production cross-sections](https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV2014#s_13_5_TeV). 
+* Change MetaData/data/cross_sections.json if needed. Cross section could be calculated using the [GenXsecAnalyzer](https://twiki.cern.ch/twiki/bin/viewauth/CMS/HowToGenXSecAnalyzer). Also, see [SM higgs production cross-sections](https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV2014#s_13_5_TeV). 
 * Run the dumper locally:
 ```
 cd ..
