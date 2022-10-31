@@ -2,8 +2,12 @@
    [[https://arxiv.org/pdf/1305.3854.pdf][Paper 1]] \\
    
    [[https://arxiv.org/pdf/1704.08259.pdf][Paper 2]] \\
+
+    [[https://arxiv.org/pdf/1610.07922.pdf][CERN YR 2017]] \\
    
-   [[https://indico.cern.ch/event/1117962/contributions/4710356/attachments/2380467/4067288/Higgs%20width%20measurements-literature%20review.pdf][Presentation 1]]
+   [[https://indico.cern.ch/event/1117962/contributions/4710356/attachments/2380467/4067288/Higgs%20width%20measurements-literature%20review.pdf][literature review - slides]]
+
+   [[https://indico.cern.ch/event/1199645/contributions/5044214/attachments/2506545/4306983/hggInt_gen_meeting_krishna.pdf][RECO level studies -  slides]] \\
    
 * flashgg
 
