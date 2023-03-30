@@ -1,0 +1,7 @@
+{
+    "cmdLine"  : "campaign=Era2017_legacy_v1_Summer19UL metaConditions=$CMSSW_BASE/src/flashgg/MetaData/data/MetaConditions/Era2017_legacy_v1.json targetLumi=41.5e+3 doSystematics=1 doPdfWeights=0 dumpGenWeight=True dumpTrees=1 dumpWorkspace=0",
+    "processes": {
+	"DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa"   : ["/DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa"],
+	"GJets_DoubleEMEnriched_PtG-20MGG-80_TuneCP5_13TeV-madgraphMLM-pythia8"   : ["/GJets_DoubleEMEnriched_PtG-20MGG-80_TuneCP5_13TeV-madgraphMLM-pythia8"]
+    }
+}

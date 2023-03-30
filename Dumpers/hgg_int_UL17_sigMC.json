@@ -1,0 +1,6 @@
+{
+    "cmdLine"  : "campaign=GluGluHToGG_int_M125_UL17 metaConditions=$CMSSW_BASE/src/flashgg/MetaData/data/MetaConditions/Era2017_legacy_v1.json targetLumi=137e+3 doSystematics=1 doPdfWeights=0 dumpGenWeight=True dumpTrees=1 dumpWorkspace=0",
+    "processes": {
+        "GluGluHToGG_int_M125_13TeV-sherpa"   : ["/GluGluHToGG_int_M125_13TeV-sherpa"]
+    }
+}
