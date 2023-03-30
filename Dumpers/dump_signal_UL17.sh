@@ -1,11 +1,12 @@
 nEvents=-1
-outdir=UntaggedTag_dump_hggInt_UL17_sigMC
+outdir=untaggedTag_m125_UL17_bkgMC
 dumper=$CMSSW_BASE/src/flashgg/Dumpers/diphoton_dumper.py
 queue=tomorrow
-json=$CMSSW_BASE/src/flashgg/Dumpers/hgg_width_UL17_sigMC.json
+json=$CMSSW_BASE/src/flashgg/Dumpers/UL17_bkgMC.json
 
 fggRunJobs.py  \
     --load $json \
+    --stage-to /eos/user/a/amkrishn/hggWidth/mcNtuples/condor_output/2017/untaggedTag_m125_UL17_bkgMC \
     -d $outdir \
     -q $queue \
     -n 100 \
