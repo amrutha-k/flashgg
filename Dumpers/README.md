@@ -5,7 +5,7 @@
 * Run the dumper locally:
 ```
 cd ..
-cmsRun Dumpers/diphoton_dumper.py metaConditions=MetaData/data/MetaConditions/Era2017_legacy_v1.json campaign=GluGluHToGG_int_M125_13TeV/ dataset=/GluGluHToGG_int_M125_13TeV-sherpa/phys_higgs-crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00-467e9e21904518f354c32e2b169db7c8/USER doSystematics=0 dumpWorkspace=0 dumpTrees=1 dumpGenWeight=True maxEvents=500
+cmsRun Dumpers/diphoton_dumper.py metaConditions=MetaData/data/MetaConditions/Era2017_legacy_v1.json campaign=GluGluHToGG_int_M125_13TeV/ dataset=/GluGluHToGG_int_M125_13TeV-sherpa/phys_higgs-crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00-467e9e21904518f354c32e2b169db7c8/USER doSystematics=1 doPdfWeights=0 dumpWorkspace=0 dumpTrees=1 dumpGenWeight=True maxEvents=500
 ```
 If all go well and output makes sense, 
 ```
