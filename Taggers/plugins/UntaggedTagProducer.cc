@@ -28,6 +28,7 @@ namespace flashgg {
     private:
         void produce( Event &, const EventSetup & ) override;
         int chooseCategory( float );
+        int chooseCategory_pt( float mvavalue , float pT );
 
         EDGetTokenT<View<DiPhotonCandidate> > diPhotonToken_;
         EDGetTokenT<View<DiPhotonMVAResult> > mvaResultToken_;
@@ -35,6 +36,7 @@ namespace flashgg {
         bool requireScaledPtCuts_;
 
         vector<double> boundaries;
+        vector<double> boundaries_pt;
 
     };
 
@@ -45,8 +47,10 @@ namespace flashgg {
         requireScaledPtCuts_   ( iConfig.getParameter<bool> ( "RequireScaledPtCuts" ) )
     {
         boundaries = iConfig.getParameter<vector<double > >( "Boundaries" );
+        boundaries_pt = iConfig.getParameter<vector<double > >( "Boundaries_pt" );
 
         assert( is_sorted( boundaries.begin(), boundaries.end() ) ); // we are counting on ascending order - update this to give an error message or exception
+        assert( is_sorted( boundaries_pt.begin(), boundaries_pt.end() ) );
 
         produces<vector<UntaggedTag> >();
     }
@@ -57,6 +61,20 @@ namespace flashgg {
         int n;
         for( n = 0 ; n < ( int )boundaries.size() ; n++ ) {
             if( ( double )mvavalue > boundaries[boundaries.size() - n - 1] ) { return n; }
+        }
+        return -1; // Does not pass, object will not be produced
+    }
+
+    int UntaggedTagProducer::chooseCategory_pt( float mvavalue , float pT )
+    {
+        // should return 0 if mva above all the numbers, 1 if below the first, ..., boundaries.size()-N if below the Nth, ...
+        int n, m;
+        for( n = 0 ; n < ( int )boundaries.size() ; n++ ) {
+            if( ( double )mvavalue > boundaries[boundaries.size() - n - 1] ) { 
+                for( m = 0 ; m < ( int )boundaries_pt.size() ; m++ ) { 
+                    if( ( double )pT >= boundaries_pt[boundaries_pt.size() - m - 1] ) { return m; }
+                }
+            }       
         }
         return -1; // Does not pass, object will not be produced
     }
@@ -84,7 +102,8 @@ namespace flashgg {
 
             tag_obj.setSystLabel( systLabel_ );
 
-            int catnum = chooseCategory( mvares->result );
+            //int catnum = chooseCategory( mvares->result );
+            int catnum = chooseCategory_pt( mvares->result , dipho->pt());
             tag_obj.setCategoryNumber( catnum );
 
             tag_obj.includeWeights( *dipho );
