@@ -11,10 +11,10 @@ flashggUntagged = cms.EDProducer("FlashggUntaggedTagProducer",
                                  DiPhotonTag    = cms.InputTag('flashggPreselectedDiPhotons'),
                                  SystLabel      = cms.string(""),
                                  MVAResultTag   = cms.InputTag('flashggDiPhotonMVA'),
-                                 #Boundaries     = cms.vdouble(-0.405,0.204,0.564,0.864), #,1.000),
-                                 Boundaries     = cms.vdouble(-1.000), #-1.000),
-                                 #Boundaries_pt  = cms.vdouble(15.211614, 39.281673, 60.941993, 106.565167),
-                                 Boundaries_pt  = cms.vdouble(0),
+                                 Boundaries     = cms.vdouble(0.735, 0.95, 0.79, 0.948, 0.822, 0.952, 0.841, 0.963, 0.955, 0.995),
+                                 #Boundaries     = cms.vdouble(-1.000), #-1.000),
+                                 Boundaries_pt  = cms.vdouble(15.0, 25.0, 40.0, 64.0, 114.0, 2624.57),
+                                 #Boundaries_pt  = cms.vdouble(0),
                                  RequireScaledPtCuts = cms.bool(True)
 )
 
