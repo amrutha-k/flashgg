@@ -466,8 +466,8 @@ elif customize.doStageOne:
 else:
     tagList=[
         ["NOTAG",0],
-        ["UntaggedTag",4],
-        ["VBFTag",3]
+        ["UntaggedTag",10],
+        #["VBFTag",3]
         #["ZHLeptonicTag",2],
         #["WHLeptonicTag",6],
         #["VHMetTag",2],
@@ -477,16 +477,23 @@ else:
         #["THQLeptonicTag",0],
         #["TTHDiLeptonTag",0]
         ]
-
-
+        
 diphoton_variables = ["mass          := diPhoton.mass",
                       "diphoton_pt   :=  diPhoton.pt",
-                      "diphoton_mva    :=  diPhotonMVA.transformedMvaValue()",
+                      "diphoton_eta   :=  diPhoton.eta",
+                      "diphoton_phi   :=  diPhoton.phi",
+                      "diphoton_energy   :=  diPhoton.energy", 
+                      "diphoton_transformedMva :=  diPhotonMVA.transformedMvaValue()",
+                      "diphoton_mva    :=  diPhotonMVA.result",
+                      "vtxprob       := diPhotonMVA.vtxprob",
                       "pho1_pt       :=  diPhoton.leadingPhoton.pt",
                       "pho1_eta         :=  diPhoton.leadingPhoton.eta",
                       "pho1_phi          :=  diPhoton.leadingPhoton.phi",
                       "pho1_energy   := diPhoton.leadingPhoton.energy",
-                      "pho1_full5x5_r9   := diPhoton.leadingPhoton.full5x5_r9",
+                      "pho1_full5x5_r9  := diPhoton.leadingPhoton.full5x5_r9",
+                      "pho1_sieie       := diPhoton.leadingPhoton.sigmaIetaIeta",
+                      "pho1_hoe         := diPhoton.leadingPhoton.hadronicOverEm",
+                      "pho1_sigmaEoE    := diPhoton.leadingPhoton.sigEOverE",
                       "pho1_idmva       := diPhoton.leadPhotonId",
                       "pho1_genMatchType:= diPhoton.leadingPhoton.genMatchType",
                       "pho2_pt       := diPhoton.subLeadingPhoton.pt",
@@ -494,10 +501,19 @@ diphoton_variables = ["mass          := diPhoton.mass",
                       "pho2_phi          := diPhoton.subLeadingPhoton.phi",
                       "pho2_energy   := diPhoton.subLeadingPhoton.energy",
                       "pho2_full5x5_r9   := diPhoton.subLeadingPhoton.full5x5_r9",
+                      "pho2_sieie       := diPhoton.subLeadingPhoton.sigmaIetaIeta",
+                      "pho2_hoe         := diPhoton.subLeadingPhoton.hadronicOverEm",
+                      "pho2_sigmaEoE    := diPhoton.subLeadingPhoton.sigEOverE",
                       "pho2_idmva       := diPhoton.subLeadPhotonId",
                       "pho2_genMatchType:= diPhoton.subLeadingPhoton.genMatchType",
                       "pho1_ptOverMgg   := diPhoton.leadingPhoton.pt/diPhoton.mass",
-                      "pho2_ptOverMgg   := diPhoton.subLeadingPhoton.pt/diPhoton.mass"
+                      "pho2_ptOverMgg   := diPhoton.subLeadingPhoton.pt/diPhoton.mass",
+                      "sigmarv          := diPhotonMVA.sigmarv",
+                      "sigmarvDecorr    := diPhotonMVA.decorrSigmarv",
+                      "sigmawv          := diPhotonMVA.sigmawv",
+                      "CosPhi           := diPhotonMVA.CosPhi",
+                      "pho1_SCeta       := diPhoton.leadingPhoton.superCluster.eta",
+                      "pho2_SCeta       := diPhoton.subLeadingPhoton.superCluster.eta"
                       ]
 
 definedSysts=set()
