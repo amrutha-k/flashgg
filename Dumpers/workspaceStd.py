@@ -408,7 +408,8 @@ cloneTagSequenceForEachSystematic(process,systlabels,phosystlabels,metsystlabels
 # Dump an object called NoTag for untagged events in order to track QCD weights
 # Will be broken if it's done for non-central values, so turn this on only for the non-syst tag sorter
 process.flashggTagSorter.CreateNoTag = True # MUST be after tag sequence cloning
-process.flashggTagSorter.isGluonFusion = cms.bool(bool(customize.processId.count("ggh")))
+process.flashggTagSorter.isGluonFusion = cms.bool(bool(customize.processId.count("ggh") or customize.processId.lower().count("glugluh")))
+#print "isGluonFusion", process.flashggTagSorter.isGluonFusion
 process.flashggTagSorter.applyNNLOPSweight = cms.bool(customize.applyNNLOPSweight)
 
 ###### Dumper section
