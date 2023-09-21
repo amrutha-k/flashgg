@@ -37,23 +37,23 @@ def flashggPrepareTagSequence(process, options):
                                       * flashggPreselectedDiPhotons
                                       * flashggDiPhotonMVA
                                       * flashggUnpackedJets
-                                      * flashggVBFMVA
-                                      * flashggVHhadMVA
-                                      * flashggGluGluHMVA
-                                      * flashggVBFDiPhoDiJetMVA
+                               #       * flashggVBFMVA
+                               #       * flashggVHhadMVA
+                               #       * flashggGluGluHMVA
+                               #       * flashggVBFDiPhoDiJetMVA
                                       * ( flashggUntagged
                                       #                                  *( flashggSigmaMoMpToMTag
-                                          + flashggVBFTag
-                                          + flashggTTHDiLeptonTag
-                                          + flashggTTHLeptonicTag
-                      + flashggTHQLeptonicTag
+                                #          + flashggVBFTag
+                                #          + flashggTTHDiLeptonTag
+                                #          + flashggTTHLeptonicTag
+                 #     + flashggTHQLeptonicTag
 #                                     + flashggTTHHadronicTTag                                      
-#                                     + flashggTTHHadronicLTag                                      
-                                          + flashggTTHHadronicTag
-                                          + flashggVHMetTag
-                                          + flashggWHLeptonicTag
-                                          + flashggZHLeptonicTag
-                                          + flashggVHHadronicTag
+#                 #                    + flashggTTHHadronicLTag                                      
+                  #                        + flashggTTHHadronicTag
+                  #                        + flashggVHMetTag
+                  #                        + flashggWHLeptonicTag
+                  #                        + flashggZHLeptonicTag
+                  #                        + flashggVHHadronicTag
                                       )
                                       * flashggTagSorter
                                   )
