@@ -191,28 +191,28 @@ class MicroAODCustomize(object):
         #     process.out.outputCommands.append('keep *_HTXSRivetProducer_*_*')
 
         #raise Exception,"Debugging ongoing for HTXS in CMSSW 9"
-        process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-        process.rivetProducerHTXS = cms.EDProducer('HTXSRivetProducer',
-                                                   HepMCCollection = cms.InputTag('myGenerator','unsmeared'),
-                                                   LHERunInfo = cms.InputTag('externalLHEProducer'),
-                                                   ProductionMode = cms.string('AUTO'),
-        )
+        #process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+        #process.rivetProducerHTXS = cms.EDProducer('HTXSRivetProducer',
+        #                                           HepMCCollection = cms.InputTag('myGenerator','unsmeared'),
+        #                                           LHERunInfo = cms.InputTag('externalLHEProducer'),
+        #                                           ProductionMode = cms.string('AUTO'),
+        #)
 
-        process.mergedGenParticles = cms.EDProducer("MergedGenParticleProducer",
-                                                    inputPruned = cms.InputTag("prunedGenParticles"),
-                                                    inputPacked = cms.InputTag("packedGenParticles"),
-        )
-        process.myGenerator = cms.EDProducer("GenParticles2HepMCConverter",
-                                             genParticles = cms.InputTag("mergedGenParticles"),
-                                             genEventInfo = cms.InputTag("generator"),
-                                             signalParticlePdgIds = cms.vint32(25), ## for the Higgs analysis
-        )
-        process.p *= process.mergedGenParticles
-        process.p *= process.myGenerator
-        process.p *= process.rivetProducerHTXS
-        process.out.outputCommands.append('keep *_rivetProducerHTXS_*_*')
+        #process.mergedGenParticles = cms.EDProducer("MergedGenParticleProducer",
+        #                                            inputPruned = cms.InputTag("prunedGenParticles"),
+        #                                            inputPacked = cms.InputTag("packedGenParticles"),
+        #)
+        #process.myGenerator = cms.EDProducer("GenParticles2HepMCConverter",
+        #                                     genParticles = cms.InputTag("mergedGenParticles"),
+        #                                     genEventInfo = cms.InputTag("generator"),
+        #                                     signalParticlePdgIds = cms.vint32(25), ## for the Higgs analysis
+        #)
+        #process.p *= process.mergedGenParticles
+        #process.p *= process.myGenerator
+        #process.p *= process.rivetProducerHTXS
+        #process.out.outputCommands.append('keep *_rivetProducerHTXS_*_*')
 
-        self.customizePDFs(process)
+        #self.customizePDFs(process)
         self.customizeHLT(process)
 
     def customizePDFs(self,process):
@@ -368,7 +368,8 @@ class MicroAODCustomize(object):
         process.rivetProducerHTXS.ProductionMode = "AUTO"
 
     def customizeGGH(self,process):
-        process.rivetProducerHTXS.ProductionMode = "GGF"
+        #process.rivetProducerHTXS.ProductionMode = "GGF"
+        pass
 
     def customizeHH(self,process):
         print "using HH sample, treating them as signals"
