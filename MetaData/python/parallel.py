@@ -443,6 +443,8 @@ class HTCondorJob(object):
             fout.write('error         = '+self.jobName+'_$(ClusterId).$(ProcId).err\n')
             fout.write('log           = '+self.jobName+'_$(ClusterId).$(ProcId)_htc.log\n\n')
             fout.write('RequestCpus   = {}\n'.format(self.ncondorcpu))
+            fout.write('requirements = TARGET.OpSysAndVer =?= "AlmaLinux9"\n')
+            fout.write('MY.WantOS = "el7"\n')
             fout.write('max_retries   = 2\n')
             fout.write('queue '+str(njobs)+' \n')
             fout.close()        
