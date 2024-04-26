@@ -48,7 +48,7 @@ namespace flashgg {
         systLabel_( iConfig.getParameter<string> ( "SystLabel" ) ),
         requireScaledPtCuts_   ( iConfig.getParameter<bool> ( "RequireScaledPtCuts" ) )
     {
-        boundaries_temp = iConfig.getParameter<vector<double > >( "Boundaries" );
+       boundaries_temp = iConfig.getParameter<vector<double > >( "Boundaries" );
         for (int i=0; i<( int )boundaries_temp.size()/2; i++){
             boundaries.push_back( {boundaries_temp[2*i], boundaries_temp[2*i + 1]} );
         }
@@ -67,23 +67,24 @@ namespace flashgg {
         cout<<endl;*/
         
 
-        assert( is_sorted( boundaries.begin(), boundaries.end() ) ); // we are counting on ascending order - update this to give an error message or exception
+        //assert( is_sorted( boundaries.begin(), boundaries.end() ) ); // we are counting on ascending order - update this to give an error message or exception
         assert( is_sorted( boundaries_pt.begin(), boundaries_pt.end() ) );
 
         produces<vector<UntaggedTag> >();
     }
 
     
-    /*int UntaggedTagProducer::chooseCategory( float mvavalue ) //default chooseCategory func
+  
+    int UntaggedTagProducer::chooseCategory( float mvavalue ) //default chooseCategory func
     {
         // should return 0 if mva above all the numbers, 1 if below the first, ..., boundaries.size()-N if below the Nth, ...
         int n;
-        for( n = 0 ; n < ( int )boundaries.size() ; n++ ) {
-            if( ( double )mvavalue > boundaries[boundaries.size() - n - 1] ) { return n; }
+        for( n = 0 ; n < ( int )boundaries_temp.size() ; n++ ) {
+            if( ( double )mvavalue > boundaries_temp[boundaries_temp.size() - n - 1] ) { return n; }
         }
         return -1; // Does not pass, object will not be produced
-    }*/
-    
+    }
+  
     
     int UntaggedTagProducer::chooseCategory_pt( float mvavalue , float pT )
     {
@@ -111,7 +112,7 @@ namespace flashgg {
 
         Handle<View<flashgg::DiPhotonMVAResult> > mvaResults;
         evt.getByToken( mvaResultToken_, mvaResults );
-//   const PtrVector<flashgg::DiPhotonMVAResult>& mvaResultPointers = mvaResults->ptrVector();
+        //   const PtrVector<flashgg::DiPhotonMVAResult>& mvaResultPointers = mvaResults->ptrVector();
 
         std::unique_ptr<vector<UntaggedTag> > tags( new vector<UntaggedTag> );
 
@@ -125,13 +126,12 @@ namespace flashgg {
             tag_obj.setDiPhotonIndex( candIndex );
 
             tag_obj.setSystLabel( systLabel_ );
-
-            //int catnum = chooseCategory( mvares->result );
-            int catnum = chooseCategory_pt( mvares->result, dipho->pt());
+            //choose category
+            int catnum;
+            if (boundaries_temp.size() == 1){ catnum = chooseCategory( mvares->result ); }
+            else{ catnum = chooseCategory_pt( mvares->result, dipho->pt()); }
             tag_obj.setCategoryNumber( catnum );
-
             tag_obj.includeWeights( *dipho );
-
             bool passScaledPtCuts = 1;
             if ( requireScaledPtCuts_ ) {
 
@@ -139,7 +139,7 @@ namespace flashgg {
                 float pt_over_mgg_2 = (dipho->subLeadingPhoton()->pt() / dipho->mass());
 
                 passScaledPtCuts = ( pt_over_mgg_1 > (1./3) && pt_over_mgg_2 > (1./4) );
-                //                std::cout << " pt_over_mgg_1=" << pt_over_mgg_1 << " pt_over_mgg_2=" << pt_over_mgg_2 << " passScaledPtCuts=" << passScaledPtCuts << std::endl;
+                //std::cout << " pt_over_mgg_1=" << pt_over_mgg_1 << " pt_over_mgg_2=" << pt_over_mgg_2 << " passScaledPtCuts=" << passScaledPtCuts << std::endl;
             }
 
             if( passScaledPtCuts && tag_obj.categoryNumber() >= 0 ) {
