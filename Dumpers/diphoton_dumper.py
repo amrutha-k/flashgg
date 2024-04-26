@@ -426,7 +426,8 @@ process.source = cms.Source ("PoolSource",
                                  #"/store/user/spigazzi/flashgg/Era2017_RR-31Mar2018_v2/legacyRun2FullV1/GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia8/Era2017_RR-31Mar2018_v2-legacyRun2FullV1-v0-RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/190703_101705/0000/myMicroAODOutputFile_45.root"
                                  #"/store/user/spigazzi/flashgg/Era2018_RR-17Sep2018_v2/legacyRun2FullV2/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8/Era2018_RR-17Sep2018_v2-legacyRun2FullV2-v0-RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/190710_093150/0000/myMicroAODOutputFile_41.root"
                                  #"/store/user/spigazzi/flashgg/Era2018_RR-17Sep2018_v2/legacyRun2FullV2/EGamma/Era2018_RR-17Sep2018_v2-legacyRun2FullV2-v0-Run2018A-17Sep2018-v2/190610_103420/0001/myMicroAODOutputFile_1125.root"
-                                "/store/group/phys_higgs/cmshgg/HGG_Int/amkrishn/microAOD_UL2017_MC/HGG_int_M125_RunIISummer20UL17/v0/GluGluHToGG_int_M125_13TeV-sherpa/crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00/220411_122242/0000/MicroAOD_HGG_Int_M125_UL2017_44.root"
+                                #"/store/group/phys_higgs/cmshgg/HGG_Int/amkrishn/microAOD_UL2017_MC/HGG_int_M125_RunIISummer20UL17/v0/GluGluHToGG_int_M125_13TeV-sherpa/crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00/220411_122242/0000/MicroAOD_HGG_Int_M125_UL2017_44.root"
+                                "/store/group/phys_higgs/cmshgg/rasharma/flashgg/RunIISummer20UL18/legacyRunII/DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18-legacyRunII-v0-RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v2/220517_230412/0000/myMicroAODOutputFile_905.root"
                              ))
 
 process.TFileService = cms.Service("TFileService",
@@ -470,7 +471,7 @@ elif customize.doStageOne:
 else:
     tagList=[
         ["NoTag",0],
-        ["UntaggedTag",0],
+        ["UntaggedTag",4],
         ["VBFTag",3],
         ["ZHLeptonicTag",2],
         ["WHLeptonicTag",6],
@@ -484,7 +485,7 @@ else:
 
 
 #tagList=[["VBFTag",3],["UntaggedTag",4]] #One Category
-tagList=[["UntaggedTag",0]] #One Category
+tagList=[["NOTAG",0],["UntaggedTag",8]] #One Category
 
 process.flashggWHLeptonicTag.Boundaries_GT75 = cms.vdouble(-1) #Loose cuts on WHBDT mva... #Rohith
 
@@ -502,8 +503,11 @@ custom_vars = ['wh_mva :=  WHmva()',
 
 diphoton_variables = ["mass          := diPhoton.mass",
                       "diphoton_pt   :=  diPhoton.pt",
-                      "diphoton_mva    :=  diPhotonMVA.transformedMvaValue()",
-                     # "diphoton_mva    :=  diPhotonMVA.result",
+                      "diphoton_eta   :=  diPhoton.eta",
+                      "diphoton_phi   :=  diPhoton.phi",
+                      "diphoton_energy   :=  diPhoton.energy", 
+                      "diphoton_transformedMva :=  diPhotonMVA.transformedMvaValue()",
+                      "diphoton_mva    :=  diPhotonMVA.result",
                       "vtxprob       := diPhotonMVA.vtxprob",
                       "pho1_pt       :=  diPhoton.leadingPhoton.pt",
                       "pho1_eta         :=  diPhoton.leadingPhoton.eta",
