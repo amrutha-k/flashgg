@@ -192,6 +192,12 @@ customize.options.register('applyNNLOPSweight',
                            VarParsing.VarParsing.varType.bool,
                            'applyNNLOPSweight'
                            )
+customize.options.register('isInt',
+                           False,
+                           VarParsing.VarParsing.multiplicity.singleton,
+                           VarParsing.VarParsing.varType.bool,
+                           'isInt'
+                           )
 
 
 print "Printing defaults"
@@ -408,8 +414,8 @@ cloneTagSequenceForEachSystematic(process,systlabels,phosystlabels,metsystlabels
 # Dump an object called NoTag for untagged events in order to track QCD weights
 # Will be broken if it's done for non-central values, so turn this on only for the non-syst tag sorter
 process.flashggTagSorter.CreateNoTag = True # MUST be after tag sequence cloning
-process.flashggTagSorter.isGluonFusion = cms.bool(bool(customize.processId.count("ggh") or customize.processId.lower().count("glugluh")))
-#print "isGluonFusion", process.flashggTagSorter.isGluonFusion
+if not customize.isInt:
+    process.flashggTagSorter.isGluonFusion = cms.bool(bool(customize.processId.count("ggh") or customize.processId.lower().count("glugluh")))
 process.flashggTagSorter.applyNNLOPSweight = cms.bool(customize.applyNNLOPSweight)
 
 ###### Dumper section
@@ -466,8 +472,8 @@ elif customize.doStageOne:
     tagList = soc.tagList
 else:
     tagList=[
-        ["NOTAG",0],
-        ["UntaggedTag",10],
+        #["NOTAG",0],
+        ["UntaggedTag",0],
         #["VBFTag",3]
         #["ZHLeptonicTag",2],
         #["WHLeptonicTag",6],
@@ -488,6 +494,7 @@ diphoton_variables = ["mass          := diPhoton.mass",
                       "diphoton_mva    :=  diPhotonMVA.result",
                       "vtxprob       := diPhotonMVA.vtxprob",
                       "pho1_pt       :=  diPhoton.leadingPhoton.pt",
+                      "pho1_genPt       :=  ? diPhoton.leadingPhoton.hasMatchedGenPhoton ? diPhoton.leadingPhoton.matchedGenPhoton.pt : 0",
                       "pho1_eta         :=  diPhoton.leadingPhoton.eta",
                       "pho1_phi          :=  diPhoton.leadingPhoton.phi",
                       "pho1_energy   := diPhoton.leadingPhoton.energy",
@@ -498,6 +505,7 @@ diphoton_variables = ["mass          := diPhoton.mass",
                       "pho1_idmva       := diPhoton.leadPhotonId",
                       "pho1_genMatchType:= diPhoton.leadingPhoton.genMatchType",
                       "pho2_pt       := diPhoton.subLeadingPhoton.pt",
+                      "pho2_genPt       :=  ? diPhoton.subLeadingPhoton.hasMatchedGenPhoton ? diPhoton.subLeadingPhoton.matchedGenPhoton.pt : 0",
                       "pho2_eta         := diPhoton.subLeadingPhoton.eta",
                       "pho2_phi          := diPhoton.subLeadingPhoton.phi",
                       "pho2_energy   := diPhoton.subLeadingPhoton.energy",
