@@ -3,9 +3,6 @@
     "processes": {
         "ggh_125"   : ["/GluGluHToGG_int_M125_13TeV-sherpa"],
         "ggh_120"   : ["/GluGluHToGG_int_M120_13TeV-sherpa"],
-        "ggh_130"   : ["/GluGluHToGG_int_M130_13TeV-sherpa"],
-        "ggh_125"   : ["/GluGluHToGG_intqg_M125_13TeV-sherpa"],
-        "ggh_120"   : ["/GluGluHToGG_intqg_M120_13TeV-sherpa"],
-        "ggh_130"   : ["/GluGluHToGG_intqg_M130_13TeV-sherpa"]
+        "ggh_130"   : ["/GluGluHToGG_int_M130_13TeV-sherpa"]
     }
 }
