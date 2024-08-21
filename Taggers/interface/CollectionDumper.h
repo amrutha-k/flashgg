@@ -96,7 +96,8 @@ namespace flashgg {
 
     protected:
         double eventWeight( const edm::EventBase &event );
-        double eventGenWeight( const edm::EventBase &event );
+        //double eventGenWeight( const edm::EventBase &event );
+        vector<double> eventGenWeight( const edm::EventBase &event );
         vector<double> pdfWeights( const edm::EventBase &event );
         int getStage0bin( const edm::EventBase &event );
         int getStage1bin( const edm::EventBase &event );
@@ -134,7 +135,8 @@ namespace flashgg {
         
         // event weight
         float weight_;
-        float genweight_;
+        //float genweight_;
+        vector<double> genweight_;
         vector<double> pdfWeights_;
         int pdfWeightSize_;
         bool pdfWeightHistosBooked_;
@@ -407,9 +409,11 @@ namespace flashgg {
         }
     }     
     template<class C, class T, class U>
-        double CollectionDumper<C, T, U>::eventGenWeight( const edm::EventBase &event )
+    //double CollectionDumper<C, T, U>::eventGenWeight( const edm::EventBase &event )
+    vector<double> CollectionDumper<C, T, U>::eventGenWeight( const edm::EventBase &event )  
         {
-            double genweight = 1.;
+            //double genweight = 1.;
+            vector<double> genweight;
             if( ! event.isRealData() ) {
                 edm::Handle<GenEventInfoProduct> genInfo;
                 const edm::Event * fullEvent = dynamic_cast<const edm::Event *>(&event);
@@ -422,7 +426,8 @@ namespace flashgg {
                     const auto &weights = genInfo->weights();
                     // FIXME store alternative/all weight-sets
                     if( ! weights.empty() ) {
-                        genweight = weights[9];
+                        //genweight = weights[0];
+                        genweight = weights;
                     }
                 }
             }

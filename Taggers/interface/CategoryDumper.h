@@ -127,7 +127,8 @@ namespace flashgg {
         void compressPdfWeightDatasets(RooWorkspace *ws);
         
 
-        void fill( const object_type &obj, double weight, vector<double>, int n_cand = 0, int htxsBin = -999, double genweight = 1.);
+        //void fill( const object_type &obj, double weight, vector<double>, int n_cand = 0, int htxsBin = -999, double genweight = 1.);
+        void fill( const object_type &obj, double weight, vector<double>, int n_cand = 0, int htxsBin = -999, vector<double> genweight = {});
         string  GetName();
         bool isBinnedOnly();
 
@@ -150,7 +151,8 @@ namespace flashgg {
 
         int n_cand_;
         float weight_;
-        float genweight_;
+        //float genweight_;
+        std::vector<double> genweight_;
         RooArgSet rooVars_;
         RooArgSet rooVars_pdfWeights_;        
         RooAbsData *dataset_;
@@ -608,7 +610,8 @@ bool CategoryDumper<F, O>::isBinnedOnly( )
 }
 
     template<class F, class O>
-    void CategoryDumper<F, O>::fill( const object_type &obj, double weight, vector<double> pdfWeights, int n_cand, int htxsBin, double genweight)
+    //void CategoryDumper<F, O>::fill( const object_type &obj, double weight, vector<double> pdfWeights, int n_cand, int htxsBin, double genweight)
+    void CategoryDumper<F, O>::fill( const object_type &obj, double weight, vector<double> pdfWeights, int n_cand, int htxsBin, vector<double> genweight) 
 {  
     n_cand_ = n_cand;
     weight_ = weight;
