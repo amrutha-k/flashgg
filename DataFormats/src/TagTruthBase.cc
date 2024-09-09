@@ -286,6 +286,9 @@ int TagTruthBase::HTXSstage1p2orderedBinFine() const {
 // order: THU_ggH_Mu, THU_ggH_Res, THU_ggH_Mig01, THU_ggH_Mig12, THU_ggH_VBF2j, THU_ggH_VBF3j, THU_ggH_PT60, THU_ggH_PT120, THU_ggH_qmtop
 void TagTruthBase::setGluonFusionWeights( int njets, float pTH, int stage1bin )
 {
+    //FIX FOR INTERFERENCE SHERPA SAMPLES
+    if(njets == -999){njets = 0;}
+
     std::vector<float> theWeightsUp  = qcd_ggF_uncertSF_2017( njets, pTH, stage1bin, 1. );
     this->setWeight("THU_ggH_MuUp01sigma", theWeightsUp[0]);
     this->setWeight("THU_ggH_ResUp01sigma", theWeightsUp[1]);
