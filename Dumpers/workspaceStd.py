@@ -474,6 +474,7 @@ else:
     tagList=[
         #["NOTAG",0],
         ["UntaggedTag",0],
+        #["UntaggedTag",10],
         #["VBFTag",3]
         #["ZHLeptonicTag",2],
         #["WHLeptonicTag",6],
@@ -558,7 +559,7 @@ for tag in tagList:
       is_signal = reduce(lambda y,z: y or z, map(lambda x: customize.processId.count(x), signal_processes))
       if ( customize.doPdfWeights and customize.doSystematics ) and ( (customize.datasetName() and customize.datasetName().count("HToGG")) or customize.processId.count("h_") or customize.processId.count("vbf_") or is_signal ) and (systlabel ==  "") and not (customize.processId.count("bbh_") or customize.processId.count("thw_") or customize.processId.count("thq_")):
           #print "Signal MC central value, so dumping PDF weights"
-          dumpPdfWeights = False
+          dumpPdfWeights = True
           nPdfWeights = 60
           nAlphaSWeights = 2
           nScaleWeights = 9
