@@ -51,7 +51,7 @@
                 "weights": -3173.56494140625
             }, 
             {
-                "bad": false, 
+                "bad": true, 
                 "events": 25000, 
                 "name": "/store/group/phys_higgs/cmshgg/emanuele/flashgg/Era2017_legacy_v1_Summer20UL/tag-stxsac-v2-106-ga55293cd/GluGluHToGG_intqg_M130_13TeV-sherpa/Era2017_legacy_v1_Summer20UL-tag-stxsac-v2-106-ga55293cd-v0-RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9-v2/240307_183818/0000/myMicroAODOutputFile_10.root", 
                 "nevents": 25000, 
@@ -99,7 +99,7 @@
                 "weights": -3411.0126953125
             }, 
             {
-                "bad": false, 
+                "bad": true, 
                 "events": 25000, 
                 "name": "/store/group/phys_higgs/cmshgg/emanuele/flashgg/Era2017_legacy_v1_Summer20UL/tag-stxsac-v2-106-ga55293cd/GluGluHToGG_intqg_M130_13TeV-sherpa/Era2017_legacy_v1_Summer20UL-tag-stxsac-v2-106-ga55293cd-v0-RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9-v2/240307_183818/0000/myMicroAODOutputFile_9.root", 
                 "nevents": 25000, 
