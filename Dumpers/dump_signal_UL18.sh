@@ -1,4 +1,4 @@
-nEvents=-1
+nEvents=100000
 outdir=untaggedTag_UL18_sigMC_new
 dumper=$CMSSW_BASE/src/flashgg/Dumpers/workspaceStd.py
 queue=tomorrow

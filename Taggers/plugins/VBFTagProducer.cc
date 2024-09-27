@@ -574,7 +574,7 @@ namespace flashgg {
                               && tag_obj.VBFMVA().sublPho_PToM > (1./5) 
                               && tag_obj.VBFMVA().dijet_Mjj > 100. );
 
-                           std::cout << "  VBFpresel=" << VBFpresel << std::endl << std::endl;
+                         
             }
 
             // saving the collection
