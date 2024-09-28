@@ -266,6 +266,7 @@ class JobConfig(object):
             import sys
             if self.dataset and self.dataset != "":
                 name,xsec,totEvents,files,maxEvents,sp_unused = self.dataset
+                print("MIAOO", name)
                 if self.getMaxJobs:
                     print "maxJobs:%d" % ( min(len(files),self.nJobs) )                    
                 if len(files) != 0:
@@ -325,7 +326,9 @@ class JobConfig(object):
             if isdata or self.targetLumi > 0. or putarget:
                 ## look for analyzers which have lumiWeight as attribute
                 for name,obj in process.__dict__.iteritems():
-                    
+
+                    print("MIAOOO", xsec)
+
                     if hasattr(obj,"lumiWeight"):
                         if  isdata:
                             obj.lumiWeight = 1.
