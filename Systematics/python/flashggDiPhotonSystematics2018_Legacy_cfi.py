@@ -392,8 +392,8 @@ emptySigma = cms.PSet(
     secondVar = cms.vint32()
 )
 
-scalesAndSmearingsPrefix = cms.string("EgammaAnalysis/ElectronTools/data/ScalesSmearings/Run2018_29Sep2020_RunFineEtaR9Gain_oldFormat")
-#scalesAndSmearingsPrefix = cms.string("EgammaAnalysis/ElectronTools/data/ScalesSmearings/Run2018_09Sep2021_RunFineEtaR9Et_stochastic_oldFormat")
+#scalesAndSmearingsPrefix = cms.string("EgammaAnalysis/ElectronTools/data/ScalesSmearings/Run2018_29Sep2020_RunFineEtaR9Gain_oldFormat")
+scalesAndSmearingsPrefix = cms.string("EgammaAnalysis/ElectronTools/data/ScalesSmearings/Run2018_09Sep2021_RunFineEtaR9Et_stochastic_oldFormat")
 #scalesAndSmearingsPrefixForSigmaEOverE = scalesAndSmearingsPrefix
 
 MCScaleHighR9EB = cms.PSet( PhotonMethodName = cms.string("FlashggPhotonScale"),
