@@ -29,8 +29,4 @@ AutoDict_*
 # This is a symlink created by setup.sh
 DataFormats/src/classes_def.xml
 
-*.xml
-
-*.pkl
-
-*.db
+MicroAOD/data/*
