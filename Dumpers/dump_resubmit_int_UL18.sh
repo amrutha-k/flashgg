@@ -6,10 +6,11 @@ json=$CMSSW_BASE/src/flashgg/Dumpers/UL18_int.json
 
 fggRunJobs.py  \
     --load $json \
-    --stage-to /eos/user/r/rgargiul/dataHggWidth/trees/trees_postVBFcat_int \
+    --stage-to /eos/user/r/rgargiul/amrutha_ws/signal_trees/untaggedTag_UL18_intMC_vbfcat \
     -d $outdir \
     -q $queue \
     -n 1000 \
     --no-copy-proxy -D -P \
     --no-use-tarball \
-    -x cmsRun $dumper maxEvents=$nEvents copyInputMicroAOD=False
+    -x cmsRun $dumper maxEvents=$nEvents copyInputMicroAOD=False \
+    --cont --resubmit-missing

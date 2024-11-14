@@ -284,8 +284,9 @@ def customizeJetSystematicsForData(process):
   #  process.jec.toGet[0].tag = cms.string(process.jec.toGet[0].tag.value().replace("MC","DATA"))
   #  process.jec.connect = cms.string(process.jec.connect.value().replace("MC","DATA"))
     from flashgg.Taggers.flashggTags_cff import UnpackedJetCollectionVInputTag
-    jetsystprodlist = [getattr(process,"flashggJetSystematics%i"%i) for i in range(len(UnpackedJetCollectionVInputTag))]
-    for systprod in jetsystprodlist:
+    if not customize.disableJEC:
+      jetsystprodlist = [getattr(process,"flashggJetSystematics%i"%i) for i in range(len(UnpackedJetCollectionVInputTag))]
+      for systprod in jetsystprodlist:
         # For updating bugged or unavailable JEC
         # It should be a noop in cases where they are already correct
         newvpset = cms.VPSet()
@@ -297,7 +298,7 @@ def customizeJetSystematicsForData(process):
                 newvpset += [pset]
         systprod.SystMethods = newvpset
         process.load("JetMETCorrections/Configuration/JetCorrectionServices_cff")
-    process.jetCorrectorChain = cms.Sequence(process.ak4PFCHSL1FastL2L3ResidualCorrectorChain)
+      process.jetCorrectorChain = cms.Sequence(process.ak4PFCHSL1FastL2L3ResidualCorrectorChain)
 
 def useEGMTools(process):
     # remove old scales

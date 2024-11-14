@@ -337,7 +337,8 @@ if is_signal:
             phosystlabels.append("MaterialCentralBarrel%s01sigma" % direction)
             phosystlabels.append("MaterialOuterBarrel%s01sigma" % direction)
             phosystlabels.append("MaterialForward%s01sigma" % direction)
-            phosystlabels.append("FNUFEB%s01sigma" % direction)
+            phosystlabels.append("FNUFInnerEB%s01sigma" % direction)
+            phosystlabels.append("FNUFOuterEB%s01sigma" % direction)
             phosystlabels.append("FNUFEE%s01sigma" % direction)
             phosystlabels.append("MCScaleGain6EB%s01sigma" % direction)
             phosystlabels.append("MCScaleGain1EB%s01sigma" % direction)
@@ -435,7 +436,8 @@ process.source = cms.Source ("PoolSource",
                                  #"/store/user/spigazzi/flashgg/Era2017_RR-31Mar2018_v2/legacyRun2FullV1/GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia8/Era2017_RR-31Mar2018_v2-legacyRun2FullV1-v0-RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/190703_101705/0000/myMicroAODOutputFile_45.root"
                                  #"/store/user/spigazzi/flashgg/Era2018_RR-17Sep2018_v2/legacyRun2FullV2/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8/Era2018_RR-17Sep2018_v2-legacyRun2FullV2-v0-RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/190710_093150/0000/myMicroAODOutputFile_41.root"
                                  #"/store/user/spigazzi/flashgg/Era2018_RR-17Sep2018_v2/legacyRun2FullV2/EGamma/Era2018_RR-17Sep2018_v2-legacyRun2FullV2-v0-Run2018A-17Sep2018-v2/190610_103420/0001/myMicroAODOutputFile_1125.root"
-                                 "/store/group/phys_higgs/cmshgg/HGG_Int/amkrishn/microAOD_UL2017_MC/HGG_int_M125_RunIISummer20UL17/v0/GluGluHToGG_int_M125_13TeV-sherpa/crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00/220411_122242/0000/MicroAOD_HGG_Int_M125_UL2017_44.root"
+                                 #"/store/group/phys_higgs/cmshgg/HGG_Int/amkrishn/microAOD_UL2017_MC/HGG_int_M125_RunIISummer20UL17/v0/GluGluHToGG_int_M125_13TeV-sherpa/crab_v0_GluGluHToGG_int_M125_13TeV-sherpa_RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v2_00/220411_122242/0000/MicroAOD_HGG_Int_M125_UL2017_44.root"
+                                  "/store/group/phys_higgs/cmshgg/rasharma/flashgg/Era2018_legacy_v1_Summer20UL/legacyRunII/EGamma/Era2018_legacy_v1_Summer20UL-legacyRunII-v0-Run2018B-UL2018_MiniAODv2-v1/230503_125430/0001/myMicroAODOutputFile_1801.root"
                              ))
 
 process.TFileService = cms.Service("TFileService",
@@ -567,9 +569,14 @@ for tag in tagList:
       if ( customize.doPdfWeights and customize.doSystematics ) and ( (customize.datasetName() and customize.datasetName().count("HToGG")) or customize.processId.count("h_") or customize.processId.count("vbf_") or is_signal ) and (systlabel ==  "") and not (customize.processId.count("bbh_") or customize.processId.count("thw_") or customize.processId.count("thq_")):
           #print "Signal MC central value, so dumping PDF weights"
           dumpPdfWeights = True
-          nPdfWeights = 60
-          nAlphaSWeights = 2
-          nScaleWeights = 9
+          nPdfWeights = 5
+          if customize.processId.count("vh") or customize.isInt:
+              nAlphaSWeights = 1
+              nScaleWeights = 1
+          elif (customize.processId.count("ggh") or customize.processId.count("vbf")) and (not customize.isInt):
+              nAlphaSWeights = 2
+              nScaleWeights = 9
+
       else:
           #print "Data, background MC, or non-central value, or no systematics: no PDF weights"
           dumpPdfWeights = False

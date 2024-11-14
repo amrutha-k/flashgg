@@ -4,6 +4,10 @@
 #include <map>
 #include <string>
 
+#include <Eigen/Dense>
+#include <fstream>
+#include <iostream>
+
 #include "TH1.h"
 #include "TTree.h"
 #include "TFile.h"
@@ -40,6 +44,7 @@
 #include "flashgg/DataFormats/interface/PDFWeightObject.h"
 #include "SimDataFormats/HTXS/interface/HiggsTemplateCrossSections.h"
 
+using namespace std;
 
 #include "FWCore/Utilities/interface/Exception.h"
 
@@ -108,6 +113,8 @@ namespace flashgg {
 
         edm::InputTag src_, genInfo_, pdfWeight_ , lheEvent_;
 
+        Eigen::MatrixXd pca_matrix_;
+
         edm::EDGetTokenT<collection_type> srcToken_;
         edm::EDGetTokenT<GenEventInfoProduct> genInfoToken_;
         edm::EDGetTokenT<std::vector<flashgg::PDFWeightObject> > pdfWeightToken_;
@@ -116,6 +123,7 @@ namespace flashgg {
         int LHEWeightIndex;
 
         std::string processId_;
+        bool isInt_;
         int processIndex_;
         double lumiWeight_;
         bool splitLumiWeight_;
@@ -238,6 +246,7 @@ namespace flashgg {
         LHEWeightIndex = -1;
 
         processId_           = cfg.getParameter<std::string>( "processId" );
+        isInt_               = cfg.getUntrackedParameter<bool>( "isInt" , false);
         processIndex_        = cfg.exists("processIndex") ? cfg.getParameter<int>("processIndex") : 999;
         lumiWeight_          = cfg.getParameter<double>( "lumiWeight" );
         splitLumiWeight_     = cfg.getUntrackedParameter<bool>( "splitLumiWeight", false );
@@ -303,6 +312,12 @@ namespace flashgg {
             if (nScaleWeights_ == 0) {
                 nScaleWeights_ = cat.exists("nScaleWeights") ? cat.getParameter<int>( "nScaleWeights" ) : 0;
             }
+
+            if ( ((processId_.find(std::string("ggh")) != std::string::npos ) && (isInt_)) || (processId_.find(std::string("vh")) != std::string::npos )   ){
+                nAlphaSWeights_ = 1;
+                nScaleWeights_ = 1;
+            }
+
             if (dumpPdfWeights_ == false ) {
                 dumpPdfWeights_ = cat.exists("dumpPdfWeights")? cat.getParameter<bool>( "dumpPdfWeights" ) : false;
             }
@@ -388,12 +403,41 @@ namespace flashgg {
     //// CollectionDumper<C,T,U>::~CollectionDumper()
     //// {
     //// }
-    
+
+
     template<class C, class T, class U>
     void CollectionDumper<C, T, U>::beginJob()
     {
+
+        std::ifstream dataFile;
+
+        std::string ggh("ggh");
+
+        if ( (processId_.find(ggh) != std::string::npos) && (!isInt_ )) {
+            pca_matrix_.resize(5, 60);
+            dataFile = std::ifstream("/afs/cern.ch/work/r/rgargiul/CMSSW_10_6_29/src/flashgg/MetaData/data/PcaMatrices/ggh_pcamatrix.dat");
+        }
+
+        if ( (processId_.find(ggh) != std::string::npos) && (isInt_ )) {
+            pca_matrix_.resize(5, 100);
+            dataFile = std::ifstream("/afs/cern.ch/work/r/rgargiul/CMSSW_10_6_29/src/flashgg/MetaData/data/PcaMatrices/int_pcamatrix.dat");
+        }
+
+
+        for(int row = 0; row < pca_matrix_.rows(); ++row)
+            for(int col = 0; col < pca_matrix_.cols(); ++col)
+                dataFile >> pca_matrix_(row, col);
+
+        for(int row = 0; row < pca_matrix_.rows(); ++row){
+            cout << "MATRICE ";
+            for(int col = 0; col < pca_matrix_.cols(); ++col){
+                cout << pca_matrix_(row, col) << " ";
+            }
+            cout << endl;
+        }
+        
     }
-    
+
     template<class C, class T, class U>
     void CollectionDumper<C, T, U>::endJob()
     {
@@ -583,44 +627,99 @@ namespace flashgg {
     template<class C, class T, class U>
     vector<double> CollectionDumper<C, T, U>::pdfWeights( const edm::EventBase &event )
     {   
+
         vector<double> pdfWeights;
         edm::Handle<vector<flashgg::PDFWeightObject> > WeightHandle;
-        const edm::Event * fullEvent = dynamic_cast<const edm::Event *>(&event);
-        if (fullEvent != 0) {
-            fullEvent->getByToken(pdfWeightToken_, WeightHandle);
-        } else {
-            event.getByLabel(pdfWeight_, WeightHandle);
-        }
 
-        for( unsigned int weight_index = 0; weight_index < (*WeightHandle).size(); weight_index++ ){
+        std::string ggh("ggh"), vbf("vbf"), vh("vh");
 
-            vector<uint16_t> compressed_weights = (*WeightHandle)[weight_index].pdf_weight_container; 
-            vector<uint16_t> compressed_alpha_s_weights = (*WeightHandle)[weight_index].alpha_s_container; 
-            vector<uint16_t> compressed_scale_weights = (*WeightHandle)[weight_index].qcd_scale_container;
-
-            std::vector<float> uncompressed = (*WeightHandle)[weight_index].uncompress( compressed_weights );
-            std::vector<float> uncompressed_alpha_s = (*WeightHandle)[weight_index].uncompress( compressed_alpha_s_weights );
-            std::vector<float> uncompressed_scale = (*WeightHandle)[weight_index].uncompress( compressed_scale_weights );
-
-            for( unsigned int j=0; j<(*WeightHandle)[weight_index].pdf_weight_container.size();j++ ) {
-                pdfWeights.push_back(uncompressed[j]);
-                //                    std::cout << "pdfWeights " << j<< " " << uncompressed[j] << std::endl;
-            }
-            for( unsigned int j=0; j<(*WeightHandle)[weight_index].alpha_s_container.size();j++ ) {
-                pdfWeights.push_back(uncompressed_alpha_s[j]);
-                //                    std::cout << "alpha_s " << j << " " << uncompressed_alpha_s[j] << std::endl;
-            }
-            if ( (*WeightHandle)[weight_index].qcd_scale_container.size() == 0 ) {
-                //                    std::cout << " QCD scale weight workaround, putting in 9 dummies " << std::endl;
-                for ( unsigned int j = 0 ; j < 9 ; j++ ) {
-                    pdfWeights.push_back(0.); // should never be used in case this workaround is in place
-                }
+        if ( ( (processId_.find(ggh) != std::string::npos) || (processId_.find(vbf) != std::string::npos) ) && (!isInt_) ){
+            const edm::Event * fullEvent = dynamic_cast<const edm::Event *>(&event);
+            if (fullEvent != 0) {
+                fullEvent->getByToken(pdfWeightToken_, WeightHandle);
             } else {
-                for( unsigned int j=0; j<(*WeightHandle)[weight_index].qcd_scale_container.size();j++ ) {
-                    pdfWeights.push_back(uncompressed_scale[j]);
+                event.getByLabel(pdfWeight_, WeightHandle);
+            }
+        
+            for( unsigned int weight_index = 0; weight_index < (*WeightHandle).size(); weight_index++ ){
+                
+
+                vector<uint16_t> compressed_weights = (*WeightHandle)[weight_index].pdf_weight_container; 
+                vector<uint16_t> compressed_alpha_s_weights = (*WeightHandle)[weight_index].alpha_s_container; 
+                vector<uint16_t> compressed_scale_weights = (*WeightHandle)[weight_index].qcd_scale_container;
+
+                std::vector<float> uncompressed = (*WeightHandle)[weight_index].uncompress( compressed_weights );
+                std::vector<float> uncompressed_alpha_s = (*WeightHandle)[weight_index].uncompress( compressed_alpha_s_weights );
+                std::vector<float> uncompressed_scale = (*WeightHandle)[weight_index].uncompress( compressed_scale_weights );
+
+
+                Eigen::VectorXd pdfweights_vector(60);
+                for( unsigned int j=0; j<uncompressed.size();j++ ) {
+                    pdfweights_vector(j) = (double)uncompressed[j];
+                }
+
+                Eigen::VectorXd pdfweights_vector_transformed(nPdfWeights_);
+
+                pdfweights_vector_transformed = pca_matrix_ * pdfweights_vector;
+
+                for( int j=0; j<int(nPdfWeights_); j++ ) {
+                    pdfWeights.push_back(pdfweights_vector_transformed(j));
+                }
+
+                for( int j=0; j<int(nAlphaSWeights_); j++ ) {
+                    pdfWeights.push_back(uncompressed_alpha_s[j]);
+                }
+                if ( (*WeightHandle)[weight_index].qcd_scale_container.size() == 0 ) {
+                    for ( int j=0; j<int(nScaleWeights_); j++ ) {
+                        pdfWeights.push_back(1.); // should never be used in case this workaround is in place
+                    }
+                } else {
+                    for( int j=0; j<int(nScaleWeights_); j++ ) {
+                        pdfWeights.push_back(uncompressed_scale[j]);
+                    }
                 }
             }
         }
+
+        if ( (processId_.find(ggh) != std::string::npos ) && (isInt_) ){
+            vector<double> genweights = eventGenWeight(event);
+            vector<double> pdfweights(genweights.end() - std::min<int>(genweights.size(), 100), genweights.end());
+
+            Eigen::VectorXd pdfweights_vector(100);
+            for( unsigned int j=0; j<pdfweights.size();j++ ) {
+                pdfweights_vector(j) = (double)pdfweights[j];
+            }
+
+            Eigen::VectorXd pdfweights_vector_transformed(5);
+            pdfweights_vector_transformed = pca_matrix_ * pdfweights_vector;
+
+            for( int j=0; j<int(nPdfWeights_); j++ ) {
+                pdfWeights.push_back(pdfweights_vector_transformed(j));
+            }
+
+            for( int j=0; j<int(nAlphaSWeights_); j++ ) {
+                pdfWeights.push_back(1.);
+            }
+            for ( int j=0; j<int(nScaleWeights_); j++ ) {
+                pdfWeights.push_back(1.); // should never be used in case this workaround is in place                                                                          
+            }
+        }
+
+        if ( (processId_.find(std::string("vh")) != std::string::npos ) ){
+
+            for( int j=0; j<int(nPdfWeights_); j++ ) {
+                pdfWeights.push_back(1.);
+            }
+
+            for( int j=0; j<int(nAlphaSWeights_); j++ ) {
+                pdfWeights.push_back(0.);
+            }
+            for ( int j=0; j<int(nScaleWeights_); j++ ) {
+                pdfWeights.push_back(0.); // should never be used in case this workaround is in place                                                                                  
+            }
+        }
+
+
         return pdfWeights;
     }    
     
